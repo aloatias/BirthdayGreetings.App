@@ -16,7 +16,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BirthdayGreetings.DataAccess\BirthdayGreetings.DataAccess.csproj" />
-    <ProjectReference Include="..\BirthdayGreetings.Interfaces\BirthdayGreetings.Interfaces.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -29,7 +29,7 @@ namespace BirthdayGreetings
         private static void InjectDependencies()
         {
             new ServiceCollection()
-                .AddDbContext<Context>(options => options.UseSqlServer(_configuration.GetConnectionString("BirthDayGreetingsConnection")));
+                .AddDbContext<BirthdayGreetingContext>(options => options.UseSqlServer(_configuration.GetConnectionString("BirthDayGreetingsConnection")));
         }
     }
 }
