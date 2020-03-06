@@ -4,4 +4,8 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BirthdayGreetings.DataAccess\BirthdayGreetings.DataAccess.csproj" />
+  </ItemGroup>
+
 </Project>
