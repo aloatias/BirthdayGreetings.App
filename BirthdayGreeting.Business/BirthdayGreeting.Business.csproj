@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BirthdayGreetings.DataAccess\BirthdayGreetings.DataAccess.csproj" />
+    <ProjectReference Include="..\BirthdayGreetings.Interfaces\BirthdayGreetings.Interfaces.csproj" />
+  </ItemGroup>
+
+</Project>
