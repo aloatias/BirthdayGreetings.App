@@ -1,5 +1,6 @@
 ﻿using BirthdayGreetings.Interfaces;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 
 namespace BirthdayGreeting.Business
@@ -13,9 +14,14 @@ namespace BirthdayGreeting.Business
             _logger = logger;
         }
 
-        public void SendMessage(Dictionary<string, string> emailAddressAndMessage)
+        public void SendMessage(Dictionary<string, string> phoneNumberAndMessage)
         {
-            
+            foreach (var contact in phoneNumberAndMessage)
+            {
+                _logger.LogInformation($"Sending text message: { contact.Value } to { contact.Key }");
+                Console.WriteLine($"Sending message: { contact.Value } to { contact.Key }");
+                Console.WriteLine();
+            }
         }
     }
 }
