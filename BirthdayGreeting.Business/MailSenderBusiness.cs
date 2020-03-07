@@ -34,7 +34,8 @@ namespace BirthdayGreeting.Business
         /// <param name="emailAddressAndMessage"></param>
         public void SendMessage(List<Tuple<string, string>> emailAddressAndMessage)
         {
-            emailAddressAndMessage.ForEach(c => {
+            emailAddressAndMessage.ForEach(c =>
+            {
                 _logger.LogInformation($"Sending email: { c.Item2 } to { c.Item1 }");
                 Console.WriteLine($"Sending email: { c.Item2 } to { c.Item1 }");
                 Console.WriteLine();

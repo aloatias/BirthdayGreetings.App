@@ -74,7 +74,8 @@ namespace BirthdayGreetings.Business
         {
             var contactAndMessage = new Dictionary<Person, string>();
 
-            receiverPeople.ForEach(rp => {
+            receiverPeople.ForEach(rp =>
+            {
                 var message = new StringBuilder();
 
                 message.AppendLine("Subject: Birthday Reminder!");
@@ -93,7 +94,7 @@ namespace BirthdayGreetings.Business
                     else
                     {
                         message.Append($" and { peopleOnBirthday[i++].FirstName } { peopleOnBirthday[i++].LastName }");
-                        i+=2;
+                        i += 2;
                     }
                 }
 

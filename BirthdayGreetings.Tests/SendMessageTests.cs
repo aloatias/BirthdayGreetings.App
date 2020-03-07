@@ -83,7 +83,8 @@ namespace BirthdayGreetings.Message.Tests
 
             var emailAddressAndMessage = new Dictionary<string, string>();
 
-            peopleToNotify.ForEach(rp => {
+            peopleToNotify.ForEach(rp =>
+            {
                 var message = new StringBuilder();
 
                 message.AppendLine("Subject: Birthday Reminder!");
