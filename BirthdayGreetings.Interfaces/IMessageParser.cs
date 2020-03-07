@@ -1,14 +1,15 @@
 ﻿using BirthdayGreetings.DataAccess;
+using System;
 using System.Collections.Generic;
 
 namespace BirthdayGreetings.Interfaces
 {
     public interface IMessageParser
     {
-        string CreatePersonalBirthDayWish(Dictionary<string, string> birthDaypeopleInfo);
+        Dictionary<Person, string> CreateGeneralBirthDayReminder(List<Person> receiverPeople, List<Person> peopleOnBirthday);
 
-        string CreateIndividualBirthDayReminder(Dictionary<string, string> birthDayPersonInfo, List<Person> peopleToNotify);
+        List<Tuple<Person, string>> CreateIndividualBirthDayReminder(List<Person> peopleOnBirthday, List<Person> peopleToNotify);
 
-        string CreateSingleBirthDayReminder(string personName, Dictionary<string, string> birthDayPeopleInfo);
+        Dictionary<Person, string> CreatePersonalBirthDayWish(List<Person> peopleOnBirthday);
     }
 }

@@ -1,7 +1,7 @@
 using BirthdayGreetings.Business;
 using BirthdayGreetings.DataAccess;
 using BirthdayGreetings.Interfaces;
-using Bogus;
+using BirthdayGreetings.Tests;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -9,13 +9,13 @@ using Xunit;
 
 namespace BirthdayGreetings.Person.Tests
 {
-    public class PeopleBusinessTests : TestFactory
+    public class GetPeopleTests : TestFactory
     {
         private readonly BirthdayGreetingContext _context;
         private readonly IPeopleBusiness _peopleBusiness;
         private readonly Mock<IDateBusiness> _dateBusiness;
 
-        public PeopleBusinessTests()
+        public GetPeopleTests()
         {
             _context = CreateContext();
             _dateBusiness = MockMe<IDateBusiness>();
@@ -84,18 +84,6 @@ namespace BirthdayGreetings.Person.Tests
         }
 
         #region Private Methods
-        private List<DataAccess.Person> CreateFakePeople(int howManyPeople)
-        {
-            var fakePeople = new Faker<DataAccess.Person>()
-                .RuleFor(p => p.FirstName, f => f.Name.FirstName())
-                .RuleFor(p => p.LastName, f => f.Name.LastName())
-                .RuleFor(p => p.DateOfBirth, f => f.Date.Between(DateTime.Now.AddYears(-35), DateTime.Now))
-                .RuleFor(p => p.Email, (f, u) => f.Internet.Email(u.FirstName, u.LastName));
-
-            var people = fakePeople.Generate(howManyPeople);
-
-            return people;
-        }
 
         private void SeedPeopleInMemory(List<DataAccess.Person> people)
         {

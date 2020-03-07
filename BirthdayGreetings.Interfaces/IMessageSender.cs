@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace BirthdayGreetings.Interfaces
 {
-    public interface IMessageSender
+    public interface IMessageSenderBusiness
     {
-        void SendMessage(string message, string mailTo);
+        void SendMessage(Dictionary<string, string> emailAddressAndMessage);
     }
 }
