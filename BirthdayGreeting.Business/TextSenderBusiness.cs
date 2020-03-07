@@ -23,5 +23,14 @@ namespace BirthdayGreeting.Business
                 Console.WriteLine();
             }
         }
+
+        public void SendMessage(List<Tuple<string, string>> emailAddressAndMessage)
+        {
+            emailAddressAndMessage.ForEach(c => {
+                _logger.LogInformation($"Sending text message: { c.Item2 } to { c.Item1 }");
+                Console.WriteLine($"Sending text message: { c.Item2 } to { c.Item1 }");
+                Console.WriteLine();
+            });
+        }
     }
 }
