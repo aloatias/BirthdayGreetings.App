@@ -1,4 +1,4 @@
-﻿using BirthdayGreeting.Business;
+﻿using BirthdayGreetings.Business;
 using BirthdayGreetings.DataAccess;
 using BirthdayGreetings.Interfaces;
 using Bogus;

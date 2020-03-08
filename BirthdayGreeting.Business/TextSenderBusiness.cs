@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 
-namespace BirthdayGreeting.Business
+namespace BirthdayGreetings.Business
 {
     public class TextSenderBusiness : IMessageSenderBusiness
     {

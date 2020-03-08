@@ -1,4 +1,4 @@
-﻿using BirthdayGreeting.Business;
+﻿using BirthdayGreetings.Business;
 using BirthdayGreetings.Interfaces;
 using BirthdayGreetings.Tests;
 using Microsoft.Extensions.Logging;

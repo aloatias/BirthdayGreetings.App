@@ -1,6 +1,6 @@
 ﻿using BirthdayGreetings.Interfaces;
 
-namespace BirthdayGreeting.Business
+namespace BirthdayGreetings.Business
 {
     public class DateBusiness : IDateBusiness
     {
