@@ -38,7 +38,7 @@ namespace BirthdayGreetings.Business
 
             var people = _context.Person
                 .Where(
-                p => (month == 3 && _dateBusiness.IsLeapYear(today) ?
+                p => (month == _dateBusiness.GetMarchMonthNumber() && _dateBusiness.IsLeapYear(today) ?
                     (p.DateOfBirth.Day == day || p.DateOfBirth.Day == _dateBusiness.GetLeapYearMarchDay()) : p.DateOfBirth.Day == day)
                     && p.DateOfBirth.Month == month)
                 .ToList();

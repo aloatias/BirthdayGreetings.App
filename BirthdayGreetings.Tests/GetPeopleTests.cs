@@ -53,6 +53,7 @@ namespace BirthdayGreetings.Person.Tests
             _dateBusiness.Setup(d => d.GetDate()).Returns(parsedDate);
             _dateBusiness.Setup(d => d.IsLeapYear(parsedDate)).Returns(true);            
             _dateBusiness.Setup(d => d.GetLeapYearMarchDay()).Returns(29);
+            _dateBusiness.Setup(d => d.GetMarchMonthNumber()).Returns(3);
 
             // Act
             var actualResult = _peopleBusiness.GetBirthDayPeople();
@@ -75,6 +76,7 @@ namespace BirthdayGreetings.Person.Tests
             // Mock DateBusiness
             _dateBusiness.Setup(d => d.GetDate()).Returns(DateTime.Now);
             _dateBusiness.Setup(d => d.IsLeapYear(DateTime.Now)).Returns(false);
+            _dateBusiness.Setup(d => d.GetMarchMonthNumber()).Returns(3);
 
             // Act
             var actualResult = _peopleBusiness.GetBirthDayPeople();
