@@ -18,9 +18,7 @@ namespace BirthdayGreeting.Business
         {
             foreach (var contact in phoneNumberAndMessage)
             {
-                _logger.LogInformation($"Sending text message: { contact.Value } to { contact.Key }");
-                Console.WriteLine($"Sending message: { contact.Value } to { contact.Key }");
-                Console.WriteLine();
+                SendMessage(contact.Value, contact.Key);
             }
         }
 
@@ -28,10 +26,16 @@ namespace BirthdayGreeting.Business
         {
             emailAddressAndMessage.ForEach(c =>
             {
-                _logger.LogInformation($"Sending text message: { c.Item2 } to { c.Item1 }");
-                Console.WriteLine($"Sending text message: { c.Item2 } to { c.Item1 }");
-                Console.WriteLine();
+                SendMessage(c.Item2, c.Item1);
             });
         }
+
+        #region Private Methods
+        private void SendMessage(string message, string contact) {
+            _logger.LogInformation($"Sending text message: { message } to { contact }");
+            Console.WriteLine($"Sending text message: { message } to { contact }");
+            Console.WriteLine();
+        }
+        #endregion
     }
 }

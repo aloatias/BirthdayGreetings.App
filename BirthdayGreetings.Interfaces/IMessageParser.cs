@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace BirthdayGreetings.Interfaces
 {
-    public interface IMessageParser
+    public interface IMessageParserBusiness
     {
         Dictionary<Person, string> CreateGeneralBirthDayReminder(List<Person> receiverPeople, List<Person> peopleOnBirthday);
 

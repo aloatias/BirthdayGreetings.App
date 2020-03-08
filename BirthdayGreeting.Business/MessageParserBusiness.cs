@@ -4,9 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace BirthdayGreetings.Business
+namespace BirthdayGreeting.Business
 {
-    public class MessageParser : IMessageParser
+    public class MessageParserBusiness : IMessageParserBusiness
     {
         /// <summary>
         /// 

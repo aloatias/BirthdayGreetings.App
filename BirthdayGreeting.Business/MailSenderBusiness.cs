@@ -14,32 +14,29 @@ namespace BirthdayGreeting.Business
             _logger = logger;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="emailAddressAndMessage"></param>
-        public void SendMessage(Dictionary<string, string> emailAddressAndMessage)
+        public void SendMessage(Dictionary<string, string> phoneNumberAndMessage)
         {
-            foreach (var contact in emailAddressAndMessage)
+            foreach (var contact in phoneNumberAndMessage)
             {
-                _logger.LogInformation($"Sending email: { contact.Value } to { contact.Key }");
-                Console.WriteLine($"Sending email: { contact.Value } to { contact.Key }");
-                Console.WriteLine();
+                SendMessage(contact.Value, contact.Key);
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="emailAddressAndMessage"></param>
         public void SendMessage(List<Tuple<string, string>> emailAddressAndMessage)
         {
             emailAddressAndMessage.ForEach(c =>
             {
-                _logger.LogInformation($"Sending email: { c.Item2 } to { c.Item1 }");
-                Console.WriteLine($"Sending email: { c.Item2 } to { c.Item1 }");
-                Console.WriteLine();
+                SendMessage(c.Item2, c.Item1);
             });
         }
+
+        #region Private Method
+        private void SendMessage(string message, string contact)
+        {
+            _logger.LogInformation($"Sending email message: { message } to { contact }");
+            Console.WriteLine($"Sending email message: { message } to { contact }");
+            Console.WriteLine();
+        }
+        #endregion
     }
 }

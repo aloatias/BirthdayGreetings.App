@@ -10,11 +10,11 @@ namespace BirthdayGreetings.Message.Tests
 {
     public class CreateMessageTests : TestFactory
     {
-        private readonly IMessageParser _messageParser;
+        private readonly IMessageParserBusiness _messageParser;
 
         public CreateMessageTests()
         {
-            _messageParser = new MessageParser();
+            _messageParser = new MessageParserBusiness();
         }
 
         [Fact(DisplayName = "Should create birthday messages for ten different people")]

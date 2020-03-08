@@ -8,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
+using System.Linq;
 
 namespace BirthdayGreetings
 {
@@ -22,25 +22,64 @@ namespace BirthdayGreetings
             BuildConfiguration();
             InjectDependencies();
 
-            var test = _serviceProvider.GetRequiredService<IMessageSenderBusiness>();
+            var context = _serviceProvider.GetRequiredService<BirthdayGreetingContext>();
 
-            List<DataAccess.Person> peopleOnBirthday = CreateFakePeople(10);
-            var contactsAndMessage = new Dictionary<string, string>();
+            var peopleOnBirthday = new List<DataAccess.Person>();
+            var peopleToNotify = new List<DataAccess.Person>();
 
-            peopleOnBirthday.ForEach(p =>
+            if (!context.Person.Any())
             {
-                var message = new StringBuilder();
+                peopleOnBirthday = CreateFakePeople(10);
+                peopleToNotify = CreateFakePeople(20);
+            }
+            else
+            {
+                var peopleBusiness = _serviceProvider.GetRequiredService<IPeopleBusiness>();
 
-                message.AppendLine("Subject: Happy birthday!");
-                message.AppendLine();
-                message.AppendLine($"Happy birthday, dear { p.FirstName }!");
+                peopleOnBirthday = peopleBusiness.GetBirthDayPeople();
+                peopleToNotify = peopleBusiness.GetAllPeople();
+            }
 
-                contactsAndMessage.Add(p.Email, message.ToString());
-            });
+            // Parse messages
+            var messageParserBusiness = _serviceProvider.GetRequiredService<IMessageParserBusiness>();
+            var personalBirthdayWishMessages = messageParserBusiness.CreatePersonalBirthDayWish(peopleOnBirthday);
 
-            test.SendMessage(contactsAndMessage);
+            var individualBirthdayReminderMessages = messageParserBusiness.CreateIndividualBirthDayReminder(peopleOnBirthday, peopleToNotify);
+
+            var generalBirthdayReminderMessages = messageParserBusiness.CreateGeneralBirthDayReminder(peopleOnBirthday, peopleToNotify);
+
+            // Send messages
+            var messageSenderBusiness = _serviceProvider.GetRequiredService<IMessageSenderBusiness>();
+
+            // Parse personal birthday wish
+            var birthdayWishContactAndMessage = new Dictionary<string, string>();
+            foreach (var contact in personalBirthdayWishMessages)
+            {
+                birthdayWishContactAndMessage.Add(contact.Key.Email, contact.Value);
+            }
+
+            messageSenderBusiness.SendMessage(birthdayWishContactAndMessage);
+
+            // Parse individual birthday reminder
+            var individualBirthdayReminderContactAndMessage = new List<Tuple<string, string>>();
+            foreach (var contact in individualBirthdayReminderMessages)
+            {
+                individualBirthdayReminderContactAndMessage.Add(Tuple.Create(contact.Item1.Email, contact.Item2));
+            }
+
+            messageSenderBusiness.SendMessage(individualBirthdayReminderContactAndMessage);
+
+            // Parse general birthday reminder
+            var generalBirthdayReminderContactAndMessage = new Dictionary<string, string>();
+            foreach (var contact in generalBirthdayReminderMessages)
+            {
+                generalBirthdayReminderContactAndMessage.Add(contact.Key.Email, contact.Value);
+            }
+
+            messageSenderBusiness.SendMessage(generalBirthdayReminderContactAndMessage);
         }
 
+        #region Private Methods
         private static void BuildConfiguration()
         {
             var builder = new ConfigurationBuilder()
@@ -54,7 +93,9 @@ namespace BirthdayGreetings
         {
             var services = new ServiceCollection()
                 .AddDbContext<BirthdayGreetingContext>(options => options.UseSqlServer(_configuration.GetConnectionString("BirthDayGreetingsConnection")))
-                .AddScoped<IMessageSenderBusiness, MailSenderBusiness>()
+                .AddSingleton<IMessageParserBusiness, MessageParserBusiness>()
+                .AddSingleton<IMessageSenderBusiness, MailSenderBusiness>()
+                .AddSingleton<IMessageSenderBusiness, TextSenderBusiness>()
                 .AddLogging();
 
             _serviceProvider = services.BuildServiceProvider();
@@ -73,5 +114,6 @@ namespace BirthdayGreetings
 
             return people;
         }
+        #endregion
     }
 }
