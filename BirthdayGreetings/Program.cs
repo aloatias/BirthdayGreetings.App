@@ -122,7 +122,7 @@ namespace BirthdayGreetings
             _serviceProvider = services.BuildServiceProvider();
         }
 
-        protected static List<DataAccess.Person> CreateFakePeople(int howManyPeople)
+        private static List<DataAccess.Person> CreateFakePeople(int howManyPeople)
         {
             var fakePeople = new Faker<DataAccess.Person>()
                 .RuleFor(p => p.Id, f => Guid.NewGuid())
