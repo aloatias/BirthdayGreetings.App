@@ -67,14 +67,14 @@ namespace BirthdayGreetings.Business
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="receiverPeople"></param>
         /// <param name="peopleOnBirthday"></param>
+        /// <param name="peopleToNotify"></param>
         /// <returns></returns>
-        public Dictionary<Person, string> CreateGeneralBirthDayReminder(List<Person> peopleOnBirthday, List<Person> receiverPeople)
+        public Dictionary<Person, string> CreateGeneralBirthDayReminder(List<Person> peopleOnBirthday, List<Person> peopleToNotify)
         {
             var contactAndMessage = new Dictionary<Person, string>();
 
-            receiverPeople.ForEach(rp =>
+            peopleToNotify.ForEach(rp =>
             {
                 var message = new StringBuilder();
 
@@ -86,7 +86,7 @@ namespace BirthdayGreetings.Business
                 bool atLeastOneMessage = false;
                 for (var i = 0; i < peopleOnBirthday.Count; i++)
                 {
-                    if (peopleOnBirthday[i] != receiverPeople[i])
+                    if (peopleOnBirthday[i] != peopleToNotify[i])
                     {
                         atLeastOneMessage = true;
 
