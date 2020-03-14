@@ -13,6 +13,6 @@ namespace BirthdayGreetings.Interfaces
 
         int GetLeapYearMarchDay() => _leapYearMarchDay;
 
-        bool IsLeapYear(DateTime date) => IsLeapYear(date);
+        bool IsLeapYear(DateTime date) => DateTime.IsLeapYear(date.Year);
     }
 }

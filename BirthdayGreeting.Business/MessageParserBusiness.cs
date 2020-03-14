@@ -70,7 +70,7 @@ namespace BirthdayGreetings.Business
         /// <param name="receiverPeople"></param>
         /// <param name="peopleOnBirthday"></param>
         /// <returns></returns>
-        public Dictionary<Person, string> CreateGeneralBirthDayReminder(List<Person> receiverPeople, List<Person> peopleOnBirthday)
+        public Dictionary<Person, string> CreateGeneralBirthDayReminder(List<Person> peopleOnBirthday, List<Person> receiverPeople)
         {
             var contactAndMessage = new Dictionary<Person, string>();
 
@@ -85,22 +85,25 @@ namespace BirthdayGreetings.Business
 
                 for (var i = 0; i < peopleOnBirthday.Count; i++)
                 {
-                    message.Append($"{ peopleOnBirthday[i].FirstName } { peopleOnBirthday[i].LastName }");
+                    if (peopleOnBirthday[i] != receiverPeople[i])
+                    {
+                        message.Append($"{ peopleOnBirthday[i].FirstName } { peopleOnBirthday[i].LastName }");
 
-                    if (i + 2 != peopleOnBirthday.Count)
-                    {
-                        message.Append(", ");
-                    }
-                    else
-                    {
-                        message.Append($" and { peopleOnBirthday[i++].FirstName } { peopleOnBirthday[i++].LastName }");
-                        i += 2;
+                        if (i + 2 != peopleOnBirthday.Count)
+                        {
+                            message.Append(", ");
+                        }
+                        else
+                        {
+                            message.Append($" and { peopleOnBirthday[i++].FirstName } { peopleOnBirthday[i++].LastName }");
+                            i += 2;
+                        }
+
+                        message.AppendLine("'s birthday.");
+                        message.AppendLine("Don't forget to send them a message!");
+                        contactAndMessage.Add(rp, message.ToString());
                     }
                 }
-
-                message.AppendLine("'s birthday.");
-                message.AppendLine("Don't forget to send them a message!");
-                contactAndMessage.Add(rp, message.ToString());
             });
 
             return contactAndMessage;
