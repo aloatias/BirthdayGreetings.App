@@ -2,6 +2,7 @@
 using BirthdayGreetings.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace BirthdayGreetings.Business
@@ -48,17 +49,22 @@ namespace BirthdayGreetings.Business
         /// <returns></returns>
         public Dictionary<Person, string> CreatePersonalBirthDayWish(List<Person> peopleOnBirthday)
         {
+            var filePath = Path.GetFullPath("PersonalBirthdayWish.txt");
+
+            string template;
+            var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+            using (var streamReader = new StreamReader(fileStream, Encoding.UTF8))
+            {
+                template = streamReader.ReadToEnd();
+            };
+
             var contactAndMessage = new Dictionary<Person, string>();
 
             peopleOnBirthday.ForEach(p =>
             {
-                var message = new StringBuilder();
+                var message = template.Replace("{ name }", p.FirstName);
 
-                message.AppendLine("Subject: Happy birthday!");
-                message.AppendLine();
-                message.AppendLine($"Happy birthday, dear { p.FirstName }!");
-
-                contactAndMessage.Add(p, message.ToString());
+                contactAndMessage.Add(p, message);
             });
 
             return contactAndMessage;
