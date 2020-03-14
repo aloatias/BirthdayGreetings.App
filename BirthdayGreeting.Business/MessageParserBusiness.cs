@@ -83,10 +83,13 @@ namespace BirthdayGreetings.Business
                 message.AppendLine();
                 message.Append("Today is ");
 
+                bool atLeastOneMessage = false;
                 for (var i = 0; i < peopleOnBirthday.Count; i++)
                 {
                     if (peopleOnBirthday[i] != receiverPeople[i])
                     {
+                        atLeastOneMessage = true;
+
                         message.Append($"{ peopleOnBirthday[i].FirstName } { peopleOnBirthday[i].LastName }");
 
                         if (i + 2 != peopleOnBirthday.Count)
@@ -98,11 +101,14 @@ namespace BirthdayGreetings.Business
                             message.Append($" and { peopleOnBirthday[i++].FirstName } { peopleOnBirthday[i++].LastName }");
                             i += 2;
                         }
-
-                        message.AppendLine("'s birthday.");
-                        message.AppendLine("Don't forget to send them a message!");
-                        contactAndMessage.Add(rp, message.ToString());
                     }
+                }
+
+                if (atLeastOneMessage)
+                {
+                    message.AppendLine("'s birthday.");
+                    message.AppendLine("Don't forget to send them a message!");
+                    contactAndMessage.Add(rp, message.ToString());
                 }
             });
 
