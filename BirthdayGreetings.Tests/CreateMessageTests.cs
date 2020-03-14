@@ -36,7 +36,7 @@ namespace BirthdayGreetings.Message.Tests
             });
 
             // Act
-            var actualResult = _messageParser.CreatePersonalBirthDayWish(peopleOnBirthday);
+            var actualResult = _messageParser.CreatePersonalBirthdayWish(peopleOnBirthday);
 
             // Test
             foreach (var er in expectedResult)
@@ -76,7 +76,7 @@ namespace BirthdayGreetings.Message.Tests
             });
 
             // Act
-            var actualResult = _messageParser.CreateIndividualBirthDayReminder(peopleOnBirthday, peopleToNotify);
+            var actualResult = _messageParser.CreateIndividualBirthdayReminder(peopleOnBirthday, peopleToNotify);
 
             // Test
             actualResult.ForEach(ar => {
@@ -131,7 +131,7 @@ namespace BirthdayGreetings.Message.Tests
             });
 
             // Act
-            var actualResult = _messageParser.CreateGeneralBirthDayReminder(peopleOnBirthday, peopleToNotify);
+            var actualResult = _messageParser.CreateGeneralBirthdayReminder(peopleOnBirthday, peopleToNotify);
 
             // Test
             foreach (var er in expectedResult)

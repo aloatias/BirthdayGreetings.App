@@ -15,7 +15,7 @@ namespace BirthdayGreetings.Business
         /// <param name="peopleOnBirthday"></param>
         /// <param name="peopleToNotify"></param>
         /// <returns></returns>
-        public List<Tuple<Person, string>> CreateIndividualBirthDayReminder(List<Person> peopleOnBirthday, List<Person> peopleToNotify)
+        public List<Tuple<Person, string>> CreateIndividualBirthdayReminder(List<Person> peopleOnBirthday, List<Person> peopleToNotify)
         {
             var contactAndMessage = new List<Tuple<Person, string>>();
 
@@ -47,7 +47,7 @@ namespace BirthdayGreetings.Business
         /// </summary>
         /// <param name="peopleOnBirthday"></param>
         /// <returns></returns>
-        public Dictionary<Person, string> CreatePersonalBirthDayWish(List<Person> peopleOnBirthday)
+        public Dictionary<Person, string> CreatePersonalBirthdayWish(List<Person> peopleOnBirthday)
         {
             var filePath = Path.GetFullPath("PersonalBirthdayWish.txt");
 
@@ -76,7 +76,7 @@ namespace BirthdayGreetings.Business
         /// <param name="peopleOnBirthday"></param>
         /// <param name="peopleToNotify"></param>
         /// <returns></returns>
-        public Dictionary<Person, string> CreateGeneralBirthDayReminder(List<Person> peopleOnBirthday, List<Person> peopleToNotify)
+        public Dictionary<Person, string> CreateGeneralBirthdayReminder(List<Person> peopleOnBirthday, List<Person> peopleToNotify)
         {
             var contactAndMessage = new Dictionary<Person, string>();
 

@@ -42,11 +42,11 @@ namespace BirthdayGreetings
 
             // Parse messages
             var messageParserBusiness = _serviceProvider.GetRequiredService<IMessageParserBusiness>();
-            var personalBirthdayWishMessages = messageParserBusiness.CreatePersonalBirthDayWish(peopleOnBirthday);
+            var personalBirthdayWishMessages = messageParserBusiness.CreatePersonalBirthdayWish(peopleOnBirthday);
 
-            var individualBirthdayReminderMessages = messageParserBusiness.CreateIndividualBirthDayReminder(peopleOnBirthday, peopleToNotify);
+            var individualBirthdayReminderMessages = messageParserBusiness.CreateIndividualBirthdayReminder(peopleOnBirthday, peopleToNotify);
 
-            var generalBirthdayReminderMessages = messageParserBusiness.CreateGeneralBirthDayReminder(peopleOnBirthday, peopleToNotify);
+            var generalBirthdayReminderMessages = messageParserBusiness.CreateGeneralBirthdayReminder(peopleOnBirthday, peopleToNotify);
 
             // Send messages
             var messageSenderBusiness = _serviceProvider.GetRequiredService<IMessageSenderBusiness>();
