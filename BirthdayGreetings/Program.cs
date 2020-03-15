@@ -42,11 +42,11 @@ namespace BirthdayGreetings
 
             // Parse messages
             var messageParserBusiness = _serviceProvider.GetRequiredService<IMessageParserBusiness>();
-            var personalBirthdayWishMessages = messageParserBusiness.CreatePersonalBirthDayWish(peopleOnBirthday);
+            var personalBirthdayWishMessages = messageParserBusiness.CreatePersonalBirthdayWish(peopleOnBirthday);
 
-            var individualBirthdayReminderMessages = messageParserBusiness.CreateIndividualBirthDayReminder(peopleOnBirthday, peopleToNotify);
+            var individualBirthdayReminderMessages = messageParserBusiness.CreateIndividualBirthdayReminder(peopleOnBirthday, peopleToNotify);
 
-            var generalBirthdayReminderMessages = messageParserBusiness.CreateGeneralBirthDayReminder(peopleOnBirthday, peopleToNotify);
+            var generalBirthdayReminderMessages = messageParserBusiness.CreateGeneralBirthdayReminder(peopleOnBirthday, peopleToNotify);
 
             // Send messages
             var messageSenderBusiness = _serviceProvider.GetRequiredService<IMessageSenderBusiness>();
@@ -84,7 +84,8 @@ namespace BirthdayGreetings
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Path.Combine(AppContext.BaseDirectory))
-                .AddJsonFile("appsettings.json", false, true);
+                .AddJsonFile("appsettings.json", false, true)
+                .AddJsonFile($"appsettings.{ Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") }.json");
 
             _configuration = builder.Build();
         }
@@ -92,16 +93,36 @@ namespace BirthdayGreetings
         private static void InjectDependencies()
         {
             var services = new ServiceCollection()
-                .AddDbContext<BirthdayGreetingContext>(options => options.UseSqlServer(_configuration.GetConnectionString("BirthDayGreetingsConnection")))
+                .AddScoped<IPeopleBusiness, PeopleBusiness>()
+                .AddSingleton<IDateBusiness, DateBusiness>()
                 .AddSingleton<IMessageParserBusiness, MessageParserBusiness>()
-                .AddSingleton<IMessageSenderBusiness, MailSenderBusiness>()
-                .AddSingleton<IMessageSenderBusiness, TextSenderBusiness>()
                 .AddLogging();
+
+            bool.TryParse(_configuration.GetSection("UseMockedDataBase").Value, out bool useMockedDataBase);
+            if (useMockedDataBase)
+            {
+                services.AddDbContext<BirthdayGreetingContext>(options => options.UseInMemoryDatabase(_configuration.GetConnectionString("BirthDayGreetingsConnection")));
+            }
+            else
+            {
+                services.AddDbContext<BirthdayGreetingContext>(options => options.UseSqlServer(_configuration.GetConnectionString("BirthDayGreetingsConnection")));
+            }
+
+            bool.TryParse(_configuration.GetSection("UseEmailService").Value, out bool useEmailService);
+
+            if (useEmailService)
+            {
+                services.AddSingleton<IMessageSenderBusiness, MailSenderBusiness>();
+            }
+            else
+            {
+                services.AddSingleton<IMessageSenderBusiness, TextSenderBusiness>();
+            }
 
             _serviceProvider = services.BuildServiceProvider();
         }
 
-        protected static List<DataAccess.Person> CreateFakePeople(int howManyPeople)
+        private static List<DataAccess.Person> CreateFakePeople(int howManyPeople)
         {
             var fakePeople = new Faker<DataAccess.Person>()
                 .RuleFor(p => p.Id, f => Guid.NewGuid())

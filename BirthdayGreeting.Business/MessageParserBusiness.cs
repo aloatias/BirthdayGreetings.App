@@ -2,6 +2,7 @@
 using BirthdayGreetings.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace BirthdayGreetings.Business
@@ -14,7 +15,7 @@ namespace BirthdayGreetings.Business
         /// <param name="peopleOnBirthday"></param>
         /// <param name="peopleToNotify"></param>
         /// <returns></returns>
-        public List<Tuple<Person, string>> CreateIndividualBirthDayReminder(List<Person> peopleOnBirthday, List<Person> peopleToNotify)
+        public List<Tuple<Person, string>> CreateIndividualBirthdayReminder(List<Person> peopleOnBirthday, List<Person> peopleToNotify)
         {
             var contactAndMessage = new List<Tuple<Person, string>>();
 
@@ -46,19 +47,24 @@ namespace BirthdayGreetings.Business
         /// </summary>
         /// <param name="peopleOnBirthday"></param>
         /// <returns></returns>
-        public Dictionary<Person, string> CreatePersonalBirthDayWish(List<Person> peopleOnBirthday)
+        public Dictionary<Person, string> CreatePersonalBirthdayWish(List<Person> peopleOnBirthday)
         {
+            var filePath = Path.GetFullPath("PersonalBirthdayWish.txt");
+
+            string template;
+            var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+            using (var streamReader = new StreamReader(fileStream, Encoding.UTF8))
+            {
+                template = streamReader.ReadToEnd();
+            };
+
             var contactAndMessage = new Dictionary<Person, string>();
 
             peopleOnBirthday.ForEach(p =>
             {
-                var message = new StringBuilder();
+                var message = template.Replace("{ name }", p.FirstName);
 
-                message.AppendLine("Subject: Happy birthday!");
-                message.AppendLine();
-                message.AppendLine($"Happy birthday, dear { p.FirstName }!");
-
-                contactAndMessage.Add(p, message.ToString());
+                contactAndMessage.Add(p, message);
             });
 
             return contactAndMessage;
@@ -67,14 +73,14 @@ namespace BirthdayGreetings.Business
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="receiverPeople"></param>
         /// <param name="peopleOnBirthday"></param>
+        /// <param name="peopleToNotify"></param>
         /// <returns></returns>
-        public Dictionary<Person, string> CreateGeneralBirthDayReminder(List<Person> receiverPeople, List<Person> peopleOnBirthday)
+        public Dictionary<Person, string> CreateGeneralBirthdayReminder(List<Person> peopleOnBirthday, List<Person> peopleToNotify)
         {
             var contactAndMessage = new Dictionary<Person, string>();
 
-            receiverPeople.ForEach(rp =>
+            peopleToNotify.ForEach(rp =>
             {
                 var message = new StringBuilder();
 
@@ -83,24 +89,33 @@ namespace BirthdayGreetings.Business
                 message.AppendLine();
                 message.Append("Today is ");
 
+                bool atLeastOneMessage = false;
                 for (var i = 0; i < peopleOnBirthday.Count; i++)
                 {
-                    message.Append($"{ peopleOnBirthday[i].FirstName } { peopleOnBirthday[i].LastName }");
+                    if (peopleOnBirthday[i] != peopleToNotify[i])
+                    {
+                        atLeastOneMessage = true;
 
-                    if (i + 2 != peopleOnBirthday.Count)
-                    {
-                        message.Append(", ");
-                    }
-                    else
-                    {
-                        message.Append($" and { peopleOnBirthday[i++].FirstName } { peopleOnBirthday[i++].LastName }");
-                        i += 2;
+                        message.Append($"{ peopleOnBirthday[i].FirstName } { peopleOnBirthday[i].LastName }");
+
+                        if (i + 2 != peopleOnBirthday.Count)
+                        {
+                            message.Append(", ");
+                        }
+                        else
+                        {
+                            message.Append($" and { peopleOnBirthday[i++].FirstName } { peopleOnBirthday[i++].LastName }");
+                            i += 2;
+                        }
                     }
                 }
 
-                message.AppendLine("'s birthday.");
-                message.AppendLine("Don't forget to send them a message!");
-                contactAndMessage.Add(rp, message.ToString());
+                if (atLeastOneMessage)
+                {
+                    message.AppendLine("'s birthday.");
+                    message.AppendLine("Don't forget to send them a message!");
+                    contactAndMessage.Add(rp, message.ToString());
+                }
             });
 
             return contactAndMessage;

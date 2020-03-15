@@ -1,0 +1,6 @@
+﻿Subject: Birthday Reminder!
+
+Dear { notifyPersonName }
+
+Today is { birthdayPersonName } { birthdayPersonLastName }' birthday.
+Don't forget to send them a message!

@@ -14,6 +14,10 @@ namespace BirthdayGreetings.Business
             _logger = logger;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="phoneNumberAndMessage"></param>
         public void SendMessage(Dictionary<string, string> phoneNumberAndMessage)
         {
             foreach (var contact in phoneNumberAndMessage)
@@ -22,9 +26,13 @@ namespace BirthdayGreetings.Business
             }
         }
 
-        public void SendMessage(List<Tuple<string, string>> emailAddressAndMessage)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="phoneNumberAndMessage"></param>
+        public void SendMessage(List<Tuple<string, string>> phoneNumberAndMessage)
         {
-            emailAddressAndMessage.ForEach(c =>
+            phoneNumberAndMessage.ForEach(c =>
             {
                 SendMessage(c.Item2, c.Item1);
             });
