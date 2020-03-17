@@ -14,14 +14,22 @@ namespace BirthdayGreetings.Business
             _logger = logger;
         }
 
-        public void SendMessage(Dictionary<string, string> phoneNumberAndMessage)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="emailAddressAndMessage"></param>
+        public void SendMessage(Dictionary<string, string> emailAddressAndMessage)
         {
-            foreach (var contact in phoneNumberAndMessage)
+            foreach (var contact in emailAddressAndMessage)
             {
                 SendMessage(contact.Value, contact.Key);
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="emailAddressAndMessage"></param>
         public void SendMessage(List<Tuple<string, string>> emailAddressAndMessage)
         {
             emailAddressAndMessage.ForEach(c =>

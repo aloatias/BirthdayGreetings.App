@@ -36,7 +36,7 @@ namespace BirthdayGreetings.Message.Tests
             });
 
             // Act
-            var actualResult = _messageParser.CreatePersonalBirthDayWish(peopleOnBirthday);
+            var actualResult = _messageParser.CreatePersonalBirthdayWish(peopleOnBirthday);
 
             // Test
             foreach (var er in expectedResult)
@@ -76,7 +76,7 @@ namespace BirthdayGreetings.Message.Tests
             });
 
             // Act
-            var actualResult = _messageParser.CreateIndividualBirthDayReminder(peopleOnBirthday, peopleToNotify);
+            var actualResult = _messageParser.CreateIndividualBirthdayReminder(peopleOnBirthday, peopleToNotify);
 
             // Test
             actualResult.ForEach(ar => {
@@ -101,28 +101,37 @@ namespace BirthdayGreetings.Message.Tests
                 message.AppendLine();
                 message.Append("Today is ");
 
+                bool atLeastOneMessage = false;
                 for (var i = 0; i < peopleOnBirthday.Count; i++)
                 {
-                    message.Append($"{ peopleOnBirthday[i].FirstName } { peopleOnBirthday[i].LastName }");
+                    if (peopleOnBirthday[i] != peopleToNotify[i])
+                    {
+                        atLeastOneMessage = true;
 
-                    if (i + 2 != peopleOnBirthday.Count)
-                    {
-                        message.Append(", ");
-                    }
-                    else
-                    {
-                        message.Append($" and { peopleOnBirthday[i++].FirstName } { peopleOnBirthday[i++].LastName }");
-                        i += 2;
+                        message.Append($"{ peopleOnBirthday[i].FirstName } { peopleOnBirthday[i].LastName }");
+
+                        if (i + 2 != peopleOnBirthday.Count)
+                        {
+                            message.Append(", ");
+                        }
+                        else
+                        {
+                            message.Append($" and { peopleOnBirthday[i++].FirstName } { peopleOnBirthday[i++].LastName }");
+                            i += 2;
+                        }
                     }
                 }
 
-                message.AppendLine("'s birthday.");
-                message.AppendLine("Don't forget to send them a message!");
-                expectedResult.Add(rp, message.ToString());
+                if (atLeastOneMessage)
+                {
+                    message.AppendLine("'s birthday.");
+                    message.AppendLine("Don't forget to send them a message!");
+                    expectedResult.Add(rp, message.ToString());
+                }
             });
 
             // Act
-            var actualResult = _messageParser.CreateGeneralBirthDayReminder(peopleToNotify, peopleOnBirthday);
+            var actualResult = _messageParser.CreateGeneralBirthdayReminder(peopleOnBirthday, peopleToNotify);
 
             // Test
             foreach (var er in expectedResult)
