@@ -10,6 +10,7 @@ Use mocked data:
 
 Use local data:
 1. Execute the following commands on a terminal/package manager console:
+    
     1.1 Uncomment from line 17 to 20 in BirthdayGreetingContext.cs
     
     1.2 "cd .\BirthdayGreetings.DataAccess"
