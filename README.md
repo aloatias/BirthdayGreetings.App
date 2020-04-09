@@ -10,8 +10,11 @@ Use mocked data:
 
 Use local data:
 1. Execute the following commands on a terminal/package manager console:
+  
   1.1 Uncomment from line 17 to 20 in BirthdayGreetingContext.cs
+  
   1.2 "cd .\BirthdayGreetings.DataAccess"
+  
   1.3 "dotnet ef database update"
 
 2. Insert data in the Person table
