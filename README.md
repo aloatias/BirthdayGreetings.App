@@ -6,6 +6,7 @@ As you’re a very friendly person, you would like to send a birthday note to al
 The good news is that computers can do it automatically for you.
 
 Use mocked data:
+
 . You can just launch the app and random mocked data will be generated. This is the default situation since of course because you haven't yet executed the migration on your database so you don't have any data stored)
 
 Use local data:
@@ -22,6 +23,7 @@ Use local data:
 4. Launch the application. If you have set the "UseMockedDataBase" key to false but no data was recovered from the database the app will generate mocked data
 
 Send messages/emails:
+
 . If you want to send email messages instead of phone messages you should just set on "appsettings.development.json" the "UseEmailService" key to true
 
 Finally you can check on the unit tests by just displaying the Test Explorer tab and launching the tests. Before launching the tests make sure to comment from line 17 to 20 in BirthdayGreetingContext.cs
